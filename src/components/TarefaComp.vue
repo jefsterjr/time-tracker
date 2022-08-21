@@ -1,7 +1,7 @@
 <template>
   <BoxComp>
     <div class="columns">
-      <div class="column is-7">
+      <div class="column is-5">
         {{ tarefa.descricao }}
       </div>
       <div class="column">
