@@ -1,17 +1,18 @@
 <template>
-  <main class="columns is-gapless is-mobile">
+  <main class="columns is-gapless is-mobile" :class="{'modo-escuro':modoEscuroAtivo}">
 
     <div class="column is-one-quarter">
-      <BarraLateral/>
+      <BarraLateral @aoTemaAlterado="trocarTema"/>
     </div>
-    <div class="column is-three-quarters">
+    <div class="column is-three-quarters conteudo">
       <FormularioStart @aoSalvarTarefa="salvarTarefa"/>
       <div class="lista">
-        <TarefaComp v-for="(tarefa, index) in tarefas" :key="index"  :tarefa="tarefa"/>
+        <TarefaComp v-for="(tarefa, index) in tarefas" :key="index" :tarefa="tarefa"/>
+        <BoxComp v-if="listaEstaVazia">
+          Sem tarefas adicionadas
+        </BoxComp>
       </div>
-      <BoxComp v-if="listaEstaVazia">
-        Sem tarefas adicionadas
-      </BoxComp>
+
     </div>
 
   </main>
@@ -36,17 +37,22 @@ export default defineComponent({
   },
   data() {
     return {
-      tarefas: [] as ITarefa[]
+      tarefas: [] as ITarefa[],
+      modoEscuroAtivo: false
     }
   },
   computed: {
-    listaEstaVazia(): boolean  {
+    listaEstaVazia(): boolean {
       return this.tarefas.length === 0
     }
   },
   methods: {
-    salvarTarefa(tarefa: ITarefa) :void {
+    salvarTarefa(tarefa: ITarefa): void {
       this.tarefas.push(tarefa);
+    },
+    trocarTema(ativo: boolean) {
+      console.log(ativo)
+      this.modoEscuroAtivo = ativo;
     }
   }
 });
@@ -54,6 +60,20 @@ export default defineComponent({
 
 <style>
 .lista {
-  padding: 1.25rem;
+  padding: 1.5rem;
+}
+
+main {
+  --bg-primario: #fff;
+  --texto-primario: #000
+}
+
+main.modo-escuro {
+  --bg-primario: #2b2d42;
+  --texto-primario: #ddd
+}
+
+.conteudo {
+  background-color: var(--bg-primario);
 }
 </style>

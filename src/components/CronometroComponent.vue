@@ -1,6 +1,9 @@
 <template>
   <section>
-    <strong>{{ tempoDecorrido }}</strong>
+    <span class="fas fa-clock">
+         <strong class="display-color" style="padding-left: 0.5rem">{{ tempoDecorrido }}</strong>
+    </span>
+
   </section>
 </template>
 <script lang="ts">
@@ -21,3 +24,8 @@ export default defineComponent({
   },
 })
 </script>
+<style scoped>
+.display-color {
+  color: var(--texto-primario) !important;
+}
+</style>
