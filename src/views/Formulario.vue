@@ -18,7 +18,8 @@
 <script lang="ts">
 import {defineComponent} from "vue";
 import {useStore} from "@/store";
-import {ADICIONA_PROJETO, EDITAR_PROJETO} from "@/store/tipo-mutacao";
+import {ADICIONA_PROJETO, EDITAR_PROJETO, NOTIFICAR} from "@/store/tipo-mutacao";
+import {TipoNotificacao} from "@/interfaces/INotificacao";
 
 export default defineComponent({
   name: 'FormularioView',
@@ -40,17 +41,33 @@ export default defineComponent({
   },
   methods: {
     salvar() {
-      if (this.id) {
-        this.store.commit(EDITAR_PROJETO, {
-          id: this.id,
-          nome: this.nomeDoProjeto
+      if(this.nomeDoProjeto && this.nomeDoProjeto.length > 0){
+        if (this.id) {
+          this.store.commit(EDITAR_PROJETO, {
+            id: this.id,
+            nome: this.nomeDoProjeto
+          })
+        } else {
+          this.store.commit(ADICIONA_PROJETO, this.nomeDoProjeto)
+        }
+
+        this.nomeDoProjeto = "";
+        this.store.commit(NOTIFICAR, {
+          id: 1,
+          mensagem: "Projeto adicionado com sucesso",
+          titulo: "Projeto adicionado",
+          tipo: TipoNotificacao.SUCESSO
         })
-      } else {
-        this.store.commit(ADICIONA_PROJETO, this.nomeDoProjeto)
+        this.$router.push('/projetos');
+      }else{
+        this.store.commit(NOTIFICAR, {
+          id: 1,
+          mensagem: "Nome do projeto não pode ser vazio",
+          titulo: "Erro",
+          tipo: TipoNotificacao.FALHA
+        })
       }
 
-      this.nomeDoProjeto = "";
-      this.$router.push('/projetos');
     }
   },
   setup() {

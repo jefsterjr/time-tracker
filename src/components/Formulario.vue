@@ -5,7 +5,7 @@
         <input type="text" class="input" placeholder="Qual tarefa você deseja iniciar?" v-model="descricaoTarefa">
       </div>
       <div class="column is-5">
-        <TemporizadorComp @aoTemporarizadorFinalizado="finalizarTarefa" @aoTemporarizadorAbortado="finalizarTarefa"/>
+        <TemporizadorComp @aoTemporarizadorFinalizado="finalizarTarefa" @aoTemporarizadorAbortado="abortarTarefa"/>
       </div>
       <div class="column is-3">
         <div class="select">
@@ -42,6 +42,9 @@ export default defineComponent({
         descricao: this.descricaoTarefa,
         projeto: this.projetos.find(projeto => projeto.id == this.idProjeto)
       })
+      this.descricaoTarefa = '';
+    },
+    abortarTarefa(): void {
       this.descricaoTarefa = '';
     }
   },
