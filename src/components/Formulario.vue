@@ -5,54 +5,18 @@
         <input type="text" class="input" placeholder="Qual tarefa você deseja iniciar?">
       </div>
       <div class="column">
-        <div class="is-flex is-align-items-center is-justify-content-space-between">
-          <section>
-            <strong>{{ tempoDecorrido }}</strong>
-          </section>
-          <button class="button" @click="inicial">
-          <span class="icon">
-            <i class="fas fa-play"></i>
-          </span>
-            <span>Play</span>
-          </button>
-          <button class="button" @click="finalizar">
-          <span class="icon">
-            <i class="fas fa-stop"></i>
-          </span>
-            <span>Stop</span>
-          </button>
-        </div>
+        <TemporizadorComp />
       </div>
     </div>
   </div>
 </template>
 <script lang="ts">
 import {defineComponent} from "vue";
+import TemporizadorComp from "@/components/TemporizadorComp.vue";
 
 export default defineComponent({
   name: 'FormularioStart',
-  data() {
-    return {
-      tempoEmSegundos: 0,
-      cronometro: 0
-    }
-  },
-  computed: {
-    tempoDecorrido(): string {
-      return new Date(this.tempoEmSegundos * 1000).toISOString().substring(11, 19);
-    }
-  },
-  methods: {
-    inicial() {
-      this.cronometro =  setInterval(() => {
-        this.tempoEmSegundos++
-      }, 1000)
-      console.log('Iniciando')
-    },
-    finalizar() {
-      clearInterval(this.cronometro)
-      console.log('Finalizando')
-    }
-  }
+  components: {TemporizadorComp}
+
 })
 </script>
